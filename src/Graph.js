@@ -1,25 +1,14 @@
-import { Node } from './Node.js';
-
 export class Graph {
   constructor(size) {
+    this.nodes = [];
     this.matrix = [];
     for (let i = 0; i < size; i++) {
       this.matrix[i] = new Array(size).fill(0);
     }
-    this.nodes = [];
   }
 
-  addEdge(node) {
-    this.matrix[node.row][node.col] = 1;
-    this.nodes.push(node.data);
-  }
-
-  checkEdge(row, col) {
-    if (this.matrix[row][col] === 1) {
-      return true;
-    } else {
-      return false;
-    }
+  addEdge(row, col) {
+    this.matrix[row][col] = 1;
   }
 
   printResult() {
@@ -38,7 +27,7 @@ export class Graph {
 }
 
 export function prettyprint(matrix) {
-  let header = 'i   ';
+  let header = 'i  ';
   for (let j = 0; j < matrix.length; j++) {
     header += j + ' ';
   }
@@ -46,7 +35,7 @@ export function prettyprint(matrix) {
   console.log();
 
   for (let i = 0; i < matrix.length; i++) {
-    let row = i + '   ';
+    let row = i + '  ';
     for (let j = 0; j < matrix[i].length; j++) {
       row += matrix[i][j] + ' ';
     }
