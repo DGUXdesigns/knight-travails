@@ -12,8 +12,6 @@ function knightMoves(start, end) {
   let visited = new Set(); // Set to track visited nodes using Unique IDs
   visited.add(rootNode.data[0] * 8 + rootNode.data[1]); // Add the starting position
 
-  const predecessors = {}; // To track the shortest path
-
   while (queue.length > 0) {
     const currentNode = queue.shift();
     const currentRow = currentNode.data[0];
@@ -21,14 +19,13 @@ function knightMoves(start, end) {
 
     // If destination is reached, stop the search
     if (currentRow === end[0] && currentCol === end[1]) {
-      let pathNode = [currentRow, currentCol];
+      let pathNode = currentNode;
 
       // Rebuild the path taken
       while (pathNode) {
-        board.addEdge(pathNode[0], pathNode[1]); // Mark location on adjacency matrix
-        board.nodes.unshift(pathNode); // Add current path node to node storage
-        let pathNodeIndex = pathNode[0] * 8 + pathNode[1];
-        pathNode = predecessors[pathNodeIndex]; //
+        board.addEdge(pathNode.data[0], pathNode.data[1]); // Mark location on adjacency matrix
+        board.nodes.unshift(pathNode.data); // Add current path node to node storage
+        pathNode = pathNode.next;
       }
 
       prettyprint(board.matrix);
@@ -58,9 +55,9 @@ function knightMoves(start, end) {
 
         if (!visited.has(newIndex)) {
           const newNode = new Node(newRow, newCol);
+          newNode.next = currentNode;
           queue.push(newNode);
           visited.add(newIndex);
-          predecessors[newIndex] = [currentNode.data[0], currentNode.data[1]];
         }
       }
     }
